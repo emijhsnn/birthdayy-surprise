@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Une petite surprise pour toi ♡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#fff8f5;
+      --bg2:#f9efe8;
+      --pink:#f2cfd6;
+      --pink2:#e8b8c4;
+      --rose:#d88ea3;
+      --cream:#fffdfb;
+      --beige:#ead8cd;
+      --gold:#b78963;
+      --text:#493833;
+      --muted:#8a736a;
+      --shadow:0 20px 40px rgba(89, 57, 48, 0.12);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:'Inter', sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, #fff6fa 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #fcefe4 0%, transparent 25%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      min-height:100%;
+    }
+
+    body{
+      overflow-x:hidden;
+    }
+
+    .app{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      position:relative;
+    }
+
+    .float{
+      position:fixed;
+      pointer-events:none;
+      opacity:.5;
+      font-size:20px;
+      animation: drift 8s linear infinite;
+      z-index:0;
+    }
+
+    .f1{top:10%; left:8%; animation-delay:0s;}
+    .f2{top:18%; right:10%; animation-delay:1.5s;}
+    .f3{bottom:16%; left:12%; animation-delay:3s;}
+    .f4{bottom:12%; right:14%; animation-delay:4.5s;}
+
+    @keyframes drift{
+      0%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-14px) rotate(6deg)}
+      100%{transform:translateY(0) rotate(0deg)}
+    }
+
+    .card{
+      width:min(100%, 430px);
+      background:rgba(255,253,251,0.88);
+      border:1px solid rgba(183,137,99,0.12);
+      backdrop-filter: blur(12px);
+      box-shadow:var(--shadow);
+      border-radius:32px;
+      padding:26px 22px;
+      position:relative;
+      z-index:1;
+      overflow:hidden;
+    }
+
+    .top-bow{
+      text-align:center;
+      font-size:30px;
+      margin-top:4px;
+      margin-bottom:8px;
+    }
+
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:11px;
+      color:var(--gold);
+      text-align:center;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+
+    h1,h2{
+      font-family:'DM Serif Display', serif;
+      line-height:1.1;
+      margin:0 0 10px;
+      text-align:center;
+      color:#4d3b35;
+    }
+
+    h1{font-size:34px;}
+    h2{font-size:29px;}
+
+    .subtitle{
+      text-align:center;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      margin:0 auto 22px;
+      max-width:330px;
+    }
+
+    .screen{
+      display:none;
+      animation:fadeIn .5s ease;
+    }
+
+    .screen.active{
+      display:block;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(8px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:100%;
+      border:none;
+      border-radius:999px;
+      padding:14px 18px;
+      font-weight:600;
+      font-size:15px;
+      cursor:pointer;
+      transition:.2s ease;
+      margin-top:10px;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, var(--rose), var(--pink2));
+      color:white;
+      box-shadow:0 10px 24px rgba(216,142,163,.28);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 28px rgba(216,142,163,.32);
+    }
+
+    .btn-secondary{
+      background:#fff;
+      color:var(--text);
+      border:1px solid rgba(183,137,99,.18);
+    }
+
+    .btn-secondary:hover{
+      background:#fdf7f3;
+    }
+
+    .tiny-note{
+      text-align:center;
+      font-size:12px;
+      color:#a38c82;
+      margin-top:12px;
+    }
+
+    /* Envelope */
+    .envelope-wrap{
+      display:flex;
+      justify-content:center;
+      margin:26px 0 18px;
+    }
+
+    .envelope{
+      width:260px;
+      height:180px;
+      position:relative;
+      cursor:pointer;
+      transition:transform .25s ease;
+    }
+
+    .envelope:hover{transform:scale(1.02)}
+
+    .env-body{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, #f8dfe5, #f0c6d0);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.4);
+    }
+
+    .env-flap{
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:98px;
+      background:linear-gradient(180deg, #f4d3db, #efc2ce);
+      clip-path:polygon(0 0,100% 0,50% 100%);
+      transform-origin:top center;
+      transition:transform .8s ease;
+      z-index:3;
+    }
+
+    .env-letter{
+      position:absolute;
+      left:18px;
+      right:18px;
+      bottom:14px;
+      height:124px;
+      background:#fffdfa;
+      border-radius:16px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      padding:18px 16px;
+      transition:transform .8s ease;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+    }
+
+    .env-letter .mini{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--gold);
+      margin-bottom:8px;
+      font-weight:700;
+    }
+
+    .env-letter strong{
+      font-family:'DM Serif Display', serif;
+      font-size:24px;
+      font-weight:400;
+    }
+
+    .seal{
+      position:absolute;
+      left:50%;
+      top:72px;
+      transform:translateX(-50%);
+      width:54px;
+      height:54px;
+      border-radius:50%;
+      background:#d98ca1;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:4;
+      box-shadow:0 8px 18px rgba(217,140,161,.35);
+      font-size:21px;
+    }
+
+    .envelope.open .env-flap{
+      transform:rotateX(180deg);
+    }
+
+    .envelope.open .env-letter{
+      transform:translateY(-62px);
+    }
+
+    /* Message */
+    .note-box{
+      background:linear-gradient(180deg,#fffefd,#fff7f4);
+      border:1px solid rgba(183,137,99,.14);
+      border-radius:24px;
+      padding:20px 18px;
+      line-height:1.7;
+      color:#5c4740;
+      margin:18px 0 8px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+      position:relative;
+    }
+
+    .note-box:before{
+      content:"♡";
+      position:absolute;
+      top:12px;
+      right:16px;
+      color:#e1a3b3;
+      font-size:18px;
+    }
+
+    /* Clues */
+    .clues{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .clue{
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(183,137,99,.14);
+      border-radius:20px;
+      padding:16px 16px;
+      cursor:pointer;
+      transition:.2s ease;
+      box-shadow:0 8px 20px rgba(95,70,63,.06);
+    }
+
+    .clue:hover{
+      transform:translateY(-2px);
+      background:#fffdfa;
+    }
+
+    .clue-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-weight:600;
+      font-size:15px;
+    }
+
+    .clue-content{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+      display:none;
+    }
+
+    .clue.open .clue-content{
+      display:block;
+      animation:fadeIn .25s ease;
+    }
+
+    .progress{
+      text-align:center;
+      font-size:13px;
+      color:var(--gold);
+      margin-top:14px;
+      font-weight:600;
+    }
+
+    /* Reveal */
+    .gift-box{
+      width:140px;
+      height:140px;
+      margin:16px auto 22px;
+      position:relative;
+      animation:bounceGift 2.5s infinite ease-in-out;
+    }
+
+    @keyframes bounceGift{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-6px)}
+    }
+
+    .gift-base{
+      position:absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      height:92px;
+      background:linear-gradient(180deg,#f2cfd6,#e9b3c0);
+      border-radius:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .gift-lid{
+      position:absolute;
+      top:18px;
+      left:8px;
+      right:8px;
+      height:34px;
+      background:linear-gradient(180deg,#f8dce2,#edbcc8);
+      border-radius:14px;
+      z-index:2;
+    }
+
+    .ribbon-v, .ribbon-h{
+      position:absolute;
+      background:#fff6dc;
+      z-index:3;
+    }
+
+    .ribbon-v{
+      top:18px;
+      bottom:0;
+      width:20px;
+      left:50%;
+      transform:translateX(-50%);
+      border-radius:20px;
+    }
+
+    .ribbon-h{
+      top:42px;
+      left:0;
+      right:0;
+      height:18px;
+    }
+
+    .bow{
+      position:absolute;
+      top:-2px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:4;
+      font-size:36px;
+    }
+
+    .reveal-title{
+      font-size:18px;
+      text-align:center;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    /* Gift card */
+    .gift-card{
+      margin-top:18px;
+      background:linear-gradient(180deg,#fffdfa,#fff8f3);
+      border:1px solid rgba(183,137,99,.16);
+      border-radius:26px;
+      padding:18px;
+      box-shadow:0 12px 28px rgba(88,58,48,.08);
+    }
+
+    .gift-card h3{
+      margin:4px 0 12px;
+      font-family:'DM Serif Display', serif;
+      font-size:25px;
+      text-align:center;
+      font-weight:400;
+      color:#46342f;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#f9ecee;
+      color:#a45b74;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      margin:0 auto 12px;
+    }
+
+    .pill-wrap{
+      display:flex;
+      justify-content:center;
+    }
+
+    .gift-grid{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .gift-item{
+      padding:13px 14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.8);
+      border:1px solid rgba(183,137,99,.12);
+    }
+
+    .gift-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:var(--gold);
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .gift-value{
+      font-size:15px;
+      line-height:1.5;
+      color:#4a3933;
+      font-weight:500;
+    }
+
+    .code-box{
+      text-align:center;
+      margin-top:14px;
+      padding:16px;
+      border-radius:20px;
+      background:linear-gradient(180deg,#fff,#fff8fa);
+      border:1px dashed rgba(216,142,163,.55);
+    }
+
+    .code{
+      font-size:26px;
+      letter-spacing:.18em;
+      font-weight:700;
+      color:#bc6f87;
+      margin-top:8px;
+    }
+
+    .footer-note{
+      margin-top:14px;
+      font-size:12px;
+      text-align:center;
+      line-height:1.6;
+      color:#8f7970;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    /* Confetti */
+    .confetti{
+      position:fixed;
+      width:10px;
+      height:16px;
+      top:-20px;
+      opacity:.9;
+      z-index:10;
+      animation:fall linear forwards;
+      border-radius:3px;
+    }
+
+    @keyframes fall{
+      to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:1;
+      }
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+      margin-top:8px;
+      line-height:1.6;
+    }
+
+    .signature{
+      margin-top:16px;
+      text-align:center;
+      font-family:'DM Serif Display', serif;
+      font-size:21px;
+      color:#b3687f;
+    }
+
+    @media (max-width:420px){
+      .card{padding:22px 18px}
+      h1{font-size:30px}
+      h2{font-size:26px}
+      .envelope{width:235px;height:168px}
+      .env-letter strong{font-size:22px}
+      .code{font-size:22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="float f1">♡</div>
+  <div class="float f2">🎀</div>
+  <div class="float f3">✿</div>
+  <div class="float f4">♡</div>
+
+  <div class="app">
+    <div class="card">
+
+      <!-- Screen 1 -->
+      <section class="screen active" id="screen1">
+        <div class="top-bow">🎀</div>
+        <div class="eyebrow">A little birthday surprise</div>
+        <h1>Pour une très jolie personne…</h1>
+        <p class="subtitle">
+          J’ai préparé un tout petit quelque chose pour toi.  
+          Pas le droit de filer direct à la fin hein… il faut découvrir ton cadeau ✨
+        </p>
+        <button class="btn btn-primary" onclick="goToScreen(2)">
+          Commencer la surprise ♡
+        </button>
+        <p class="tiny-note">Promis, ça vaut le clic.</p>
+      </section>
+
+      <!-- Screen 2 -->
+      <section class="screen" id="screen2">
+        <div class="eyebrow">Step 1</div>
+        <h2>Ouvre ton enveloppe</h2>
+        <p class="subtitle">
+          Clique sur l’enveloppe pour découvrir ce qu’elle cache…
+        </p>
+
+        <div class="envelope-wrap">
+          <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="env-body"></div>
+            <div class="env-flap"></div>
+            <div class="env-letter">
+              <div class="mini">Open me</div>
+              <strong>Une surprise<br>t’attend ♡</strong>
+            </div>
+            <div class="seal">♡</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary hidden" id="continueFromEnvelope" onclick="goToScreen(3)">
+          Lire le petit mot
+        </button>
+      </section>
+
+      <!-- Screen 3 -->
+      <section class="screen" id="screen3">
+        <div class="top-bow">💌</div>
+        <div class="eyebrow">Step 2</div>
+        <h2>Un petit mot pour toi</h2>
+
+        <div class="note-box">
+          Pour tes 20 ans, je voulais t’offrir quelque chose de doux, un petit moment rien qu’à toi.  
+          Un cadeau pour te détendre, souffler, et te faire chouchouter comme tu le mérites.  
+          Et comme je ne peux pas te le donner en vrai tout de suite, j’ai voulu te faire une petite surprise à ouvrir à distance ♡
+        </div>
+
+        <div class="signature">Avec amour, Clara</div>
+
+        <button class="btn btn-primary" onclick="goToScreen(4)">
+          Découvrir les indices
+        </button>
+      </section>
+
+      <!-- Screen 4 -->
+      <section class="screen" id="screen4">
+        <div class="top-bow">🕯️</div>
+        <div class="eyebrow">Step 3</div>
+        <h2>Devine ton cadeau…</h2>
+        <p class="subtitle">
+          J’ai laissé 3 petits indices. Ouvre-les un par un 👀
+        </p>
+
+        <div class="clues">
+          <div class="clue" onclick="toggleClue(this, 1)">
+            <div class="clue-top">
+              <span>Indice 1</span>
+              <span>✨</span>
+            </div>
+            <div class="clue-content">
+              Ça se vit en mode calme, détente, et zéro stress.
+            </div>
+          </div>
+
+          <div class="clue" onclick="toggleClue(this, 2)">
+            <div class="clue-top">
+              <span>Indice 2</span>
+              <span>🫧</span>
+            </div>
+            <div class="clue-content">
+              C’est le genre de moment où tu ressors en te disant :  
+              “ok wow, j’avais besoin de ça.”
+            </div>
+          </div>
+
+          <div class="clue" onclick="toggleClue(this, 3)">
+            <div class="clue-top">
+              <span>Indice 3</span>
+              <span>💆🏻‍♀️</span>
+            </div>
+            <div class="clue-content">
+              Disons juste que ton cadeau implique qu’on prenne soin de toi. Beaucoup.
+            </div>
+          </div>
+        </div>
+
+        <div class="progress" id="clueProgress">0 / 3 indices découverts</div>
+
+        <button class="btn btn-primary hidden" id="revealBtn" onclick="showReveal()">
+          Révéler mon cadeau ♡
+        </button>
+      </section>
+
+      <!-- Screen 5 -->
+      <section class="screen" id="screen5">
+        <div class="top-bow">🎁</div>
+        <div class="eyebrow">Step 4</div>
+        <h2>Ta surprise</h2>
+        <p class="reveal-title">Attention… révélation en approche ✨</p>
+
+        <div class="gift-box">
+          <div class="bow">🎀</div>
+          <div class="gift-lid"></div>
+          <div class="gift-base"></div>
+          <div class="ribbon-v"></div>
+          <div class="ribbon-h"></div>
+        </div>
+
+        <button class="btn btn-primary" onclick="goToScreen(6)">
+          Ouvrir le cadeau
+        </button>
+
+        <p class="small">Spoiler : c’est un cadeau très doux et très mérité.</p>
+      </section>
+
+      <!-- Screen 6 -->
+      <section class="screen" id="screen6">
+        <div class="top-bow">💗</div>
+        <div class="eyebrow">Happy birthday</div>
+        <h2>Joyeux anniversaire ♡</h2>
+        <p class="subtitle">
+          Et voilà ton cadeau : un moment de détente rien que pour toi.
+        </p>
+
+        <div class="gift-card">
+          <div class="pill-wrap">
+            <div class="pill">UN SOIN BEAUTÉ OFFERT</div>
+          </div>
+
+          <h3>Modelage relaxant 45 minutes</h3>
+
+          <div class="gift-grid">
+            <div class="gift-item">
+              <div class="gift-label">Institut</div>
+              <div class="gift-value">Spa escale d’oxygene</div>
+            </div>
+
+            <div class="gift-item">
+              <div class="gift-label">Adresse</div>
+              <div class="gift-value">129, Rue Alexandre Dumas, 80090 Amiens</div>
+            </div>
+
+            <div class="gift-item">
+              <div class="gift-label">Validité</div>
+              <div class="gift-value">Jusqu’au 10/10/2027</div>
+            </div>
+
+            <div class="gift-item">
+              <div class="gift-label">Montant</div>
+              <div class="gift-value">57€</div>
+            </div>
+          </div>
+
+          <div class="code-box">
+            <div class="gift-label" style="margin-bottom:4px;">Code de la carte</div>
+            <div class="code">49 60 43 77</div>
+          </div>
+
+          <div class="footer-note">
+            Pour réserver, il suffit d’aller sur <strong>Planity</strong>, rechercher  
+            <strong>Spa escale d’oxygene</strong>, choisir une prestation, puis utiliser la carte cadeau.
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" onclick="toggleHowItWorks()">
+          Voir comment l’utiliser
+        </button>
+
+        <div class="gift-card hidden" id="howItWorksBox" style="margin-top:12px;">
+          <div class="gift-item">
+            <div class="gift-label">Comment ça marche</div>
+            <div class="gift-value">
+              1. Aller sur www.planity.com ou l’application Planity<br><br>
+              2. Rechercher : <strong>Spa escale d’oxygene</strong><br><br>
+              3. Choisir la prestation souhaitée<br><br>
+              4. Réserver la date et l’heure<br><br>
+              5. Régler sur place avec le code de la carte cadeau
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="margin-top:14px;" onclick="restartExperience()">
+          Revoir la surprise
+        </button>
+
+        <p class="tiny-note">Made with love by Clara ♡</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    let openedClues = new Set();
+
+    function goToScreen(n){
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen' + n).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openEnvelope(){
+      const envelope = document.getElementById('envelope');
+      envelope.classList.add('open');
+
+      setTimeout(() => {
+        document.getElementById('continueFromEnvelope').classList.remove('hidden');
+      }, 900);
+    }
+
+    function toggleClue(el, num){
+      if(!el.classList.contains('open')){
+        el.classList.add('open');
+        openedClues.add(num);
+      } else {
+        el.classList.remove('open');
+      }
+
+      document.getElementById('clueProgress').textContent = `${openedClues.size} / 3 indices découverts`;
+
+      if(openedClues.size === 3){
+        document.getElementById('revealBtn').classList.remove('hidden');
+      }
+    }
+
+    function showReveal(){
+      makeConfetti();
+      goToScreen(5);
+    }
+
+    function toggleHowItWorks(){
+      document.getElementById('howItWorksBox').classList.toggle('hidden');
+    }
+
+    function restartExperience(){
+      openedClues = new Set();
+      document.querySelectorAll('.clue').forEach(c => c.classList.remove('open'));
+      document.getElementById('clueProgress').textContent = '0 / 3 indices découverts';
+      document.getElementById('revealBtn').classList.add('hidden');
+      document.getElementById('continueFromEnvelope').classList.add('hidden');
+      document.getElementById('envelope').classList.remove('open');
+      document.getElementById('howItWorksBox').classList.add('hidden');
+      goToScreen(1);
+    }
+
+    function makeConfetti(){
+      const colors = ['#f2cfd6','#e8b8c4','#f9e3b0','#d9b38c','#ffdbe6','#fff'];
+      for(let i = 0; i < 90; i++){
+        const piece = document.createElement('div');
+        piece.className = 'confetti';
+        piece.style.left = Math.random() * 100 + 'vw';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        piece.style.width = (Math.random() * 8 + 6) + 'px';
+        piece.style.height = (Math.random() * 14 + 8) + 'px';
+        piece.style.opacity = Math.random() * .4 + .6;
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 4500);
+      }
+    }
+  </script>
+</body>
+</html>
